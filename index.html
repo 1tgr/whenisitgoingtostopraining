@@ -14,7 +14,6 @@
 </head>
 <body>
     <script type="text/html" id="error_template">
-        <p><strong>Oops, something bad happened!</strong> Try reloading the page.</p>
         <p><em><%= description %></em></p>
     </script>
 
@@ -43,8 +42,8 @@
             Locating you...
         </div>
 
-        <div id="change_location">
-            <p><a id="open_location" href="#">Or tell us where you are</a></p>
+        <div id="change_location" style="display: none">
+            <p><a id="open_location" href="#">Tell us where you are</a></p>
         </div>
 
         <form id="location_form" style="display: none">

@@ -59,22 +59,22 @@ function parse(json) {
 $(function() {
     $.timeago.settings.allowFuture = true;
 
+    var mainElem = $("#main");
+    mainElem.ajaxError($.fn.handleError);
+
+    function openLocation() {
+        $("#location_form").fadeIn("fast");
+        $("#location_input").focus();
+    }
+
     $.fn.handleError = function(error) {
         if (error.description === undefined) {
             error = { description: error };
         }
 
         $(this).html(tmpl("error_template", error));
+        $("#change_location").show();
     };
-
-    var mainElem = $("#main");
-    var changeLocationElem = $("#change_location");
-    var locationFormElem = $("#location_form");
-    mainElem.ajaxError($.fn.handleError);
-
-    function openLocation() {
-        locationFormElem.fadeIn("fast");
-    }
 
     $("#open_location").click(openLocation);
 
@@ -92,14 +92,15 @@ $(function() {
             if (json.location !== undefined && json.forecast !== undefined) {
                 var model = parse(json);
                 mainElem.html(tmpl(model.date === undefined ? "never_template" : "got_forecast_template", model));
-                changeLocationElem.html(tmpl("change_location_template", model));
+                $("#change_location").html(tmpl("change_location_template", model));
                 $("#open_location").click(openLocation);
+                $("#change_location").show();
             } else if (response !== undefined && response.error !== undefined) {
                 mainElem.handleError(response.error);
             } else if (response !== undefined && response.results !== undefined && response.results.length && response.results[0].l !== l) {
                 at(response.results[0].l);
             } else {
-                mainElem.handleError("Don't know how to parse JSON");
+                mainElem.handleError("We can't work out where you are.");
             }
         });
     }
