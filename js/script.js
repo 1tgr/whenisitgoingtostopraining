@@ -38,19 +38,19 @@
 function getWhen(days) {
     var i, date;
 
-    if (days.length > 0 && days[0].pop < 50) {
-        return "It's not raining";
-    } else {
-        for (i = 0; i < days.length; i++) {
-            if (days[i].pop < 50) {
+    for (i = 0; i < days.length; i++) {
+        if (days[i].pop <= 50) {
+            if (i == 0) {
+                return "It's not raining";
+            } else {
                 date = new Date(0);
                 date.setUTCSeconds(parseInt(days[i].date.epoch, 10));
                 return $.timeago(date);
             }
         }
-
-        return undefined;
     }
+
+    return undefined;
 }
 
 $(function() {
