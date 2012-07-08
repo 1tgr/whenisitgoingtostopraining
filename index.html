@@ -13,12 +13,31 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <script type="text/html" id="error_template">
+        <p><strong>Oops, something bad happened!</strong> Try reloading the page.</p>
+        <p>"<%= error %>"</p>
+    </script>
+
+    <script type="text/html" id="got_location_template">
+        <p>Forecasting weather...</p>
+    </script>
+
+    <script type="text/html" id="got_forecast_template">
+        <p><%= $.timeago(date) %></p>
+        <p>(Not in <%= place %>?)</p>
+    </script>
+
+    <script type="text/html" id="never_template">
+        <p><strong>Never.</strong> (Sorry.)</p>
+        <p>(Not in <%= place %>?)</p>
+    </script>
+
     <header>
         <h1>When will it stop raining?</h1>
     </header>
 
-    <div role="main">
-        <div id="status">Locating you...</div>
+    <div id="main" role="main">
+        Locating you...
     </div>
 
     <footer>
