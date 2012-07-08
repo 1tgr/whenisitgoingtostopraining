@@ -23,7 +23,7 @@
     </script>
 
     <script type="text/html" id="change_location_template">
-        <p>(Not in <%= place %>?)</p>
+        <p>(<a id="open_location" href="#">Not in <%= place %>?</a>)</p>
     </script>
 
     <script type="text/html" id="got_forecast_template">
@@ -44,8 +44,13 @@
         </div>
 
         <div id="change_location">
-            <p>Or tell us where you are</p>
+            <p><a id="open_location" href="#">Or tell us where you are</a></p>
         </div>
+
+        <form id="location_form" style="display: none">
+            <p><input id="location_input" type="text"></p>
+            <p><input id="location_submit" type="submit" value="I'm Here"></p>
+        </form>
 
         <footer>
 

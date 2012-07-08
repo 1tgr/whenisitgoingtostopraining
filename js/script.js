@@ -69,7 +69,19 @@ $(function() {
 
     var mainElem = $("#main");
     var changeLocationElem = $("#change_location");
+    var locationFormElem = $("#location_form");
     mainElem.ajaxError($.fn.handleError);
+
+    function openLocation() {
+        locationFormElem.fadeIn("fast");
+    }
+
+    $("#open_location").click(openLocation);
+
+    $("#location_submit").click(function() {
+        event.preventDefault();
+        window.location = "http://" + window.location.host + window.location.pathname + "?" + encodeURI($("#location_input").val());
+    });
 
     function at(l) {
         mainElem.html(tmpl("got_location_template"));
@@ -81,6 +93,7 @@ $(function() {
                 var model = parse(json);
                 mainElem.html(tmpl(model.date === undefined ? "never_template" : "got_forecast_template", model));
                 changeLocationElem.html(tmpl("change_location_template", model));
+                $("#open_location").click(openLocation);
             } else if (response !== undefined && response.error !== undefined) {
                 mainElem.handleError(response.error);
             } else if (response !== undefined && response.results !== undefined && response.results.length && response.results[0].l !== l) {
