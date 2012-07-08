@@ -38,22 +38,19 @@
 function when(days) {
     var i, date;
 
-    for (i = 0; i < days.length; i++) {
-        if (days[i].pop < 50) {
-            date = new Date(0);
-            date.setUTCSeconds(parseInt(days[i].date.epoch, 10));
-            return date;
+    if (days.length > 0 && days[0].pop < 50) {
+        return "It's not raining";
+    } else {
+        for (i = 0; i < days.length; i++) {
+            if (days[i].pop < 50) {
+                date = new Date(0);
+                date.setUTCSeconds(parseInt(days[i].date.epoch, 10));
+                return $.timeago(date);
+            }
         }
+
+        return undefined;
     }
-
-    return undefined;
-}
-
-function parse(json) {
-    return {
-        place: json.location.city + ", " + json.location.country,
-        date: when(json.forecast.simpleforecast.forecastday)
-    };
 }
 
 $(function() {
@@ -90,8 +87,12 @@ $(function() {
         $.getJSON(url, function(json) {
             var response = json.response;
             if (json.location !== undefined && json.forecast !== undefined) {
-                var model = parse(json);
-                mainElem.html(tmpl(model.date === undefined ? "never_template" : "got_forecast_template", model));
+                var model = {
+                    place: json.location.city + ", " + json.location.country,
+                    when: when(json.forecast.simpleforecast.forecastday)
+                };
+
+                mainElem.html(tmpl(model.when === undefined ? "never_template" : "got_forecast_template", model));
                 $("#change_location").html(tmpl("change_location_template", model));
                 $("#open_location").click(openLocation);
                 $("#change_location").show();
@@ -107,7 +108,11 @@ $(function() {
 
     var query = decodeURIComponent(location.search.replace(/^\?/, "")).replace(/\+/g, '%20');
     if (query.length > 0) {
-        at("/q/" + query);
+        if (query.toLowerCase() === "london") {
+            at("/q/london uk");
+        } else {
+            at("/q/" + query);
+        }
     } else if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(l) {
             at("/q/" + l.coords.latitude + "," + l.coords.longitude);
