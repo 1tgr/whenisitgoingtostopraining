@@ -35,7 +35,7 @@
 })();
 
 
-function when(days) {
+function getWhen(days) {
     var i, date;
 
     if (days.length > 0 && days[0].pop < 50) {
@@ -89,7 +89,7 @@ $(function() {
             if (json.location !== undefined && json.forecast !== undefined) {
                 var model = {
                     place: json.location.city + ", " + json.location.country,
-                    when: when(json.forecast.simpleforecast.forecastday)
+                    when: getWhen(json.forecast.simpleforecast.forecastday)
                 };
 
                 mainElem.html(tmpl(model.when === undefined ? "never_template" : "got_forecast_template", model));
