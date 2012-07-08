@@ -76,21 +76,17 @@ $(function() {
 
         var url = "http://api.wunderground.com/api/4c0975b4bf6b69d3/geolookup/forecast" + l + ".json?callback=?"
         $.getJSON(url, function(json) {
-            if (json.error === undefined) {
-                if (json.location === undefined || json.forecast === undefined) {
-                    var response = json.response;
-                    if (response === undefined || response.results === undefined || !response.results.length || response.results[0].l === l) {
-                        mainElem.handleError("Don't know how to parse JSON");
-                    } else {
-                        at(response.results[0].l);
-                    }
-                } else {
-                    var model = parse(json);
-                    mainElem.html(tmpl(model.date === undefined ? "never_template" : "got_forecast_template", model));
-                    changeLocationElem.html(tmpl("change_location_template", model));
-                }
+            var response = json.response;
+            if (json.location !== undefined && json.forecast !== undefined) {
+                var model = parse(json);
+                mainElem.html(tmpl(model.date === undefined ? "never_template" : "got_forecast_template", model));
+                changeLocationElem.html(tmpl("change_location_template", model));
+            } else if (response !== undefined && response.error !== undefined) {
+                mainElem.handleError(response.error);
+            } else if (response !== undefined && response.results !== undefined && response.results.length && response.results[0].l !== l) {
+                at(response.results[0].l);
             } else {
-                mainElem.handleError(json.error);
+                mainElem.handleError("Don't know how to parse JSON");
             }
         });
     }
