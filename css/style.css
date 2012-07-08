@@ -106,6 +106,12 @@ td { vertical-align: top; }
 .clearfix:after { clear: both; }
 .clearfix { *zoom: 1; }
 
+#content {
+    text-align: center;
+    width: 760px;
+    margin: 0 auto;
+}
+
 /* =============================================================================
    Print Styles
    ========================================================================== */
