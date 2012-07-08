@@ -68,6 +68,7 @@ $(function() {
     };
 
     var mainElem = $("#main");
+    var changeLocationElem = $("#change_location");
     mainElem.ajaxError($.fn.handleError);
 
     if (navigator.geolocation) {
@@ -79,6 +80,7 @@ $(function() {
                 if (json.error === undefined) {
                     var model = parse(json);
                     mainElem.html(tmpl(model.date === undefined ? "never_template" : "got_forecast_template", model));
+                    changeLocationElem.html(tmpl("change_location_template", model));
                 } else {
                     mainElem.handleError(json.error);
                 }

@@ -22,14 +22,16 @@
         <p>Forecasting weather...</p>
     </script>
 
+    <script type="text/html" id="change_location_template">
+        <p>(Not in <%= place %>?)</p>
+    </script>
+
     <script type="text/html" id="got_forecast_template">
         <p><%= $.timeago(date) %></p>
-        <p>(Not in <%= place %>?)</p>
     </script>
 
     <script type="text/html" id="never_template">
         <p><strong>Never.</strong> (Sorry.)</p>
-        <p>(Not in <%= place %>?)</p>
     </script>
 
     <header>
@@ -38,6 +40,10 @@
 
     <div id="main" role="main">
         Locating you...
+    </div>
+
+    <div id="change_location">
+        <p>Or tell us where you are</p>
     </div>
 
     <footer>
