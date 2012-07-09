@@ -119,5 +119,8 @@ $(function() {
         }, function(error) {
             mainElem.handleError(json.error);
         });
+    } else {
+        mainElem.html(tmpl("no_geolocation_template", { }));
+        openLocation();
     }
 });
