@@ -75,7 +75,7 @@ $(function() {
 
     $("#open_location").click(openLocation);
 
-    $("#location_submit").click(function() {
+    $("#location_submit").click(function(event) {
         event.preventDefault();
         window.location = "http://" + window.location.host + window.location.pathname + "?" + encodeURI($("#location_input").val());
     });
